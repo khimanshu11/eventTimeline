@@ -9,7 +9,7 @@ var eventOrganizer = (function() {
     /*Fetch event data*/
     var fetchEvents = function(interval) {
         $.ajax({
-            url: "https://github.com/khimanshu11/eventTimeline/tree/gh-pages/Public/data/sample-data.json",
+            url: "../data/sample-data.json",
             type: "GET",
             success: function(data) {
                 evaluateDayEvent(data, interval);
