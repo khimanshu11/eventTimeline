@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Schedule Timeline</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+
+<body>
+    <div class="mainTimeLine">
+        <!-- Top controller for showing different date -->
+        <div class="controller">
+            <table class="navigation">
+                <tbody>
+                    <tr>
+                        <td class="todayNavigation" onclick="eventOrganizer.today()">
+                            <div class="todayButton">
+                                <div class="buttonText">
+                                    Today
+                                </div>
+                            </div>
+                        </td>
+                        <td class="backNavigation" onclick="eventOrganizer.previousDay()">
+                            <div class="backDateNavigation">
+                                <div class="backNavigationIcon">
+                                </div>
+                            </div>
+                        </td>
+                        <td class="nextNavigation" onclick="eventOrganizer.nextDay()">
+                            <div class="nextDateNavigation">
+                                <div class="nextNavigationIcon">
+                                </div>
+                            </div>
+                        </td>
+                        <td class="deteShow">
+                            <div id="currentDate" class="dateUpdate">Sunday, Jul 26, 2015</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Structure of timeline -->
+        <div class="mainTimeline">
+            <table cellspacing="0" cellpadding="0" class="timeLineTable">
+                <tbody>
+                    <tr height="1">
+                        <td style="width:60px;"></td>
+                        <td colspan="1">
+                            <div class="wrapper">
+                                <div class="hourMarkers">
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                    <div class="cellMarker">
+                                        <div class="halfMarker"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wrapper"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hourList">
+                            <div class = "eachCellHeight">
+                                <div class="hours">12am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">1am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">2am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">3am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">4am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">5am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">6am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">7am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">8am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">9am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">10am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">11am</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">12pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">1pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">2pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">3pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">4pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">5pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">6pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">7pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">8pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">9pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours">10pm</div>
+                            </div>
+                            <div class = "eachCellHeight">
+                                <div class="hours hours-last">11pm</div>
+                            </div>
+                        </td>
+                        <td class="tdToday">
+                        <!-- All day event container -->
+                            <div class="timeLineToday" style="margin-bottom:-1008px;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" src = "../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src = "../js/index.js"></script>
+</body>
+</html>
