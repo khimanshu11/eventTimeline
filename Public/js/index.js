@@ -9,7 +9,7 @@ var eventOrganizer = (function() {
     /*Fetch event data*/
     var fetchEvents = function(interval) {
         $.ajax({
-            url: "../data/sample-data.json",
+            url: "http://localhost:3110/data/sample-data.json",
             type: "GET",
             success: function(data) {
                 evaluateDayEvent(data, interval);
@@ -71,6 +71,8 @@ var eventOrganizer = (function() {
             data[eventCounts].endTime = endEvent = new Date(data[eventCounts].endTime);
             endEvent = endEvent.getTime();
             if (interval.today < startEvent && interval.tomorrow > endEvent) {
+                data[eventCounts]["left"] = 0;
+                data[eventCounts]["eventWidth"] = 100;
                 dayEvents.push(data[eventCounts]);
             }
         }
@@ -81,22 +83,66 @@ var eventOrganizer = (function() {
     /*Render each event on time line*/
     var createTimeLine = function(dayEvents) {
         var timelineToday = $(".timeLineToday");
+        var leftPosition = 0;
         timelineToday.empty();
-        var eventCount = 0;
-        for (eventCount = 0; eventCount < dayEvents.length; eventCount += 1) {
-            var eventDescription = "";
-            var startHeight = 60 * (dayEvents[eventCount].startTime.getHours()) + dayEvents[eventCount].startTime.getMinutes();
-            var endHeight = 60 * (dayEvents[eventCount].endTime.getHours()) + dayEvents[eventCount].endTime.getMinutes();
-            var oHeight = endHeight - startHeight;
-            var marginTop = startHeight - 720;
-            eventDescription = '<div class = "eventTime" style = "margin-top: ' + marginTop + 'px; height:' + oHeight + 'px; z-index: ' + eventCount + '">' +
-                '<div class = "eventInfo">' + dayEvents[eventCount].title + '</div>' +
-                '<div class = "eventTiming">' + formatAMPM(dayEvents[eventCount].startTime) + ' - ' + formatAMPM(dayEvents[eventCount].endTime) + '</div>' +
-                '<div class = "change"><span>edit</span><span>delete</span><span>cancel</span>' +
-                '</div>';
-            timelineToday.append(eventDescription);
+        var eventCount = dayEvents.length - 1;
+        while (eventCount > 0) {
+            var left = 0;
+            var width = 100;
+            var backTraceEvents = 0;
+            if (dayEvents[eventCount].startTime.getTime() < dayEvents[eventCount - 1].endTime.getTime()) {
+                var groupEvent = [];
+                backTraceEvents = eventCount;
+                while (backTraceEvents >= 1) {
+                    if (dayEvents[backTraceEvents].startTime.getTime() < dayEvents[backTraceEvents - 1].endTime.getTime()) {
+                        groupEvent.push(dayEvents[backTraceEvents]);
+                        backTraceEvents--;
+                    } else {
+                        break;
+                    }
+                }
+                groupEvent.push(dayEvents[backTraceEvents]);
+                width = width / (groupEvent.length);
+                var p = 0;
+                for (var j = groupEvent.length - 1; j >= 0; j--) {
+                    // var widthValue = 0;
+                    // if (j !== 0) {
+                    //     widthValue = (width / (groupEvent.length)) + 20;
+                    // } else {
+                    //     widthValue = (width / (groupEvent.length));
+                    // }
+                    left = p * width;
+                    var startHeight = 60 * (groupEvent[j].startTime.getHours()) + groupEvent[j].startTime.getMinutes();
+                    var endHeight = 60 * (groupEvent[j].endTime.getHours()) + groupEvent[j].endTime.getMinutes();
+                    var oHeight = endHeight - startHeight;
+                    var marginTop = startHeight - 720;
+                    renderEvent(groupEvent, startHeight, endHeight, oHeight, marginTop, p, timelineToday, left, width);
+                    p++;
+                }
+            }
+            if (backTraceEvents !== 0) {
+                eventCount = backTraceEvents - 1;
+            } else {
+                var startHeight = 60 * (dayEvents[eventCount].startTime.getHours()) + dayEvents[eventCount].startTime.getMinutes();
+                var endHeight = 60 * (dayEvents[eventCount].endTime.getHours()) + dayEvents[eventCount].endTime.getMinutes();
+                var oHeight = endHeight - startHeight;
+                var marginTop = startHeight - 720;
+                renderEvent(dayEvents, startHeight, endHeight, oHeight, marginTop, eventCount, timelineToday, left, width);
+                eventCount--;
+            }
         }
     };
+
+    /*Render function*/
+    var renderEvent = function(dayEvents, startHeight, endHeight, oHeight, marginTop, eventCount, timelineToday, left, width) {
+        var eventDescription = "";
+        eventDescription = '<div class = "eventTime" style = "margin-top: ' + marginTop + 'px; height:' + oHeight + 'px; z-index: ' + eventCount + ';left : ' + left + '%; width:' + width + '%">' +
+            '<div class = "eventTiming">' + formatAMPM(dayEvents[eventCount].startTime) + ' - ' + formatAMPM(dayEvents[eventCount].endTime) + '</div>' +
+            '<div class = "eventInfo">' + dayEvents[eventCount].title + '</div>' +
+            '<div class = "change"><span>edit</span><span>delete</span><span>cancel</span>' +
+            '</div>';
+        timelineToday.append(eventDescription);
+    }
 
     /*Get AM and PM detail of time*/
     var formatAMPM = function(date) {

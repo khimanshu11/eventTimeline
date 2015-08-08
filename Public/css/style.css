@@ -128,7 +128,7 @@ td {
 
 .cellMarker {
     height: 60px;
-    background-color: #f1f1f1;
+    background-color: #fff;
 }
 
 .halfMarker {
@@ -151,36 +151,21 @@ tr {
 }
 
 .eventTime {
-    background-color: #5D5D65;
-    width: 860px;
+    /*background-color: #5D5D65;*/
+    background-color: #9FE1E7;
     position: absolute;
-    color: whitesmoke;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    color: #1d1d1d;
+    border: 1px solid #fff;
 }
 
 .eventInfo {
-    width: 400px;
-    float: left;
-    vertical-align: middle;
-    top: 30%;
-    position: relative;
-    padding-left: 20px;
 }
 
 .eventTiming {
-    width: 200px;
-    float: left;
-    top: 30%;
-    vertical-align: middle;
-    position: relative;
 }
 
 
 .change {
-    float: left;
-    position: relative;
-    top: 30%;
 }
 
 .change span {
