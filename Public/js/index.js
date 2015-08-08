@@ -9,7 +9,7 @@ var eventOrganizer = (function() {
     /*Fetch event data*/
     var fetchEvents = function(interval) {
         $.ajax({
-            url: "http://localhost:3110/data/sample-data.json",
+            url: "../data/sample-data.json",
             type: "GET",
             success: function(data) {
                 evaluateDayEvent(data, interval);
