@@ -211,7 +211,7 @@ var eventOrganizer = (function() {
             var xCo = event.pageX - offset.left - 45;
             var yCo = event.pageY - offset.top - 90;
             var timeExtention = "<div class=" + "eventExtension" + " style =" + "left:" + xCo + "px;top:" + yCo + "px><span><a href=#>edit</a></span><span><a href=#>delete</a></span><span><a href=#>cancel</a></span></div>";
-            $(target).append(timeExtention);
+            $(target).closest(".eventTime").append(timeExtention);
         });
 
         // On click anywhere else remove speech bubble pop up
