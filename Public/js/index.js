@@ -137,14 +137,14 @@ var eventOrganizer = (function() {
         /*Condition for rendering event whichh duration is less than or equeal to 15 min*/
         if (oHeight <= 15) {
             oHeight = 15;
-            eventDescription = "<div class = eventTime style = margin-top:" + marginTop + "px; height:" + oHeight + "px; z-index: " + eventCount + ";left :" + left + "%; width:" + width + "%>" +
-                "<div class = eventTiming>" + formatAMPM(dayEvents[eventCount].startTime) + " - <span>" + dayEvents[eventCount].title + "</span></div>" +
-                "</div>";
+            eventDescription = '<div class = "eventTime" style = "margin-top: ' + marginTop + 'px; height:' + oHeight + 'px; z-index: ' + eventCount + ';left : ' + left + '%; width:' + width + '%">' +
+                '<div class = "eventTiming">' + formatAMPM(dayEvents[eventCount].startTime) + ' - ' + '<span>' + dayEvents[eventCount].title + '</span></div>' +
+                '</div>';
         } else { /*Render event for other cases*/
-            eventDescription = "<div class = eventTime style = margin-top: " + marginTop + "px; height:" + oHeight + "px; z-index: " + eventCount + ";left : " + left + "%; width:" + width + "%>" +
-                "<div class = eventTiming>" + formatAMPM(dayEvents[eventCount].startTime) + " - " + formatAMPM(dayEvents[eventCount].endTime) + "</div>" +
-                "<div class = eventInfo>" + dayEvents[eventCount].title + "</div>" +
-                "</div>";
+            eventDescription = '<div class = "eventTime" style = "margin-top: ' + marginTop + 'px; height:' + oHeight + 'px; z-index: ' + eventCount + ';left : ' + left + '%; width:' + width + '%">' +
+                '<div class = "eventTiming">' + formatAMPM(dayEvents[eventCount].startTime) + ' - ' + formatAMPM(dayEvents[eventCount].endTime) + '</div>' +
+                '<div class = "eventInfo">' + dayEvents[eventCount].title + '</div>' +
+                '</div>';
         }
         timelineToday.append(eventDescription);
     };
@@ -210,7 +210,6 @@ var eventOrganizer = (function() {
             var offset = $(this).offset();
             var xCo = event.pageX - offset.left - 45;
             var yCo = event.pageY - offset.top - 90;
-            console.log(xCo, yCo);
             var timeExtention = "<div class=" + "eventExtension" + " style =" + "left:" + xCo + "px;top:" + yCo + "px><span><a href=#>edit</a></span><span><a href=#>delete</a></span><span><a href=#>cancel</a></span></div>";
             $(target).append(timeExtention);
         });
