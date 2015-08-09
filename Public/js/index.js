@@ -1,8 +1,8 @@
 //Revealing pattern to render Timeline
 
 /*global $, console */
+"use strict";
 var eventOrganizer = (function() {
-    "use strict";
     var changeCounter = 0;
 
 
@@ -71,8 +71,6 @@ var eventOrganizer = (function() {
             data[eventCounts].endTime = endEvent = new Date(data[eventCounts].endTime);
             endEvent = endEvent.getTime();
             if (interval.today < startEvent && interval.tomorrow > endEvent) {
-                data[eventCounts]["left"] = 0;
-                data[eventCounts]["eventWidth"] = 100;
                 dayEvents.push(data[eventCounts]);
             }
         }
@@ -83,13 +81,18 @@ var eventOrganizer = (function() {
     /*Render each event on time line*/
     var createTimeLine = function(dayEvents) {
         var timelineToday = $(".timeLineToday");
-        var leftPosition = 0;
         timelineToday.empty();
         var eventCount = dayEvents.length - 1;
+        /*Algorithm to render the events in O(n) iteration*/
         while (eventCount > 0) {
             var left = 0;
             var width = 100;
             var backTraceEvents = 0;
+            var startHeight = 0;
+            var endHeight = 0;
+            var oHeight = 0;
+            var marginTop = 0;
+            /*Grouping overlappiing events and rendering them in a group*/
             if (dayEvents[eventCount].startTime.getTime() < dayEvents[eventCount - 1].endTime.getTime()) {
                 var groupEvent = [];
                 backTraceEvents = eventCount;
@@ -105,44 +108,46 @@ var eventOrganizer = (function() {
                 width = width / (groupEvent.length);
                 var p = 0;
                 for (var j = groupEvent.length - 1; j >= 0; j--) {
-                    // var widthValue = 0;
-                    // if (j !== 0) {
-                    //     widthValue = (width / (groupEvent.length)) + 20;
-                    // } else {
-                    //     widthValue = (width / (groupEvent.length));
-                    // }
                     left = p * width;
-                    var startHeight = 60 * (groupEvent[j].startTime.getHours()) + groupEvent[j].startTime.getMinutes();
-                    var endHeight = 60 * (groupEvent[j].endTime.getHours()) + groupEvent[j].endTime.getMinutes();
-                    var oHeight = endHeight - startHeight;
-                    var marginTop = startHeight - 720;
+                    startHeight = 60 * (groupEvent[j].startTime.getHours()) + groupEvent[j].startTime.getMinutes();
+                    endHeight = 60 * (groupEvent[j].endTime.getHours()) + groupEvent[j].endTime.getMinutes();
+                    oHeight = endHeight - startHeight;
+                    marginTop = startHeight - 720;
                     renderEvent(groupEvent, startHeight, endHeight, oHeight, marginTop, p, timelineToday, left, width);
                     p++;
                 }
             }
             if (backTraceEvents !== 0) {
                 eventCount = backTraceEvents - 1;
-            } else {
-                var startHeight = 60 * (dayEvents[eventCount].startTime.getHours()) + dayEvents[eventCount].startTime.getMinutes();
-                var endHeight = 60 * (dayEvents[eventCount].endTime.getHours()) + dayEvents[eventCount].endTime.getMinutes();
-                var oHeight = endHeight - startHeight;
-                var marginTop = startHeight - 720;
+            } else { /*Render logic for non overlapping events*/
+                startHeight = 60 * (dayEvents[eventCount].startTime.getHours()) + dayEvents[eventCount].startTime.getMinutes();
+                endHeight = 60 * (dayEvents[eventCount].endTime.getHours()) + dayEvents[eventCount].endTime.getMinutes();
+                oHeight = endHeight - startHeight;
+                marginTop = startHeight - 720;
                 renderEvent(dayEvents, startHeight, endHeight, oHeight, marginTop, eventCount, timelineToday, left, width);
                 eventCount--;
             }
         }
+        onClickFire();
     };
 
     /*Render function*/
     var renderEvent = function(dayEvents, startHeight, endHeight, oHeight, marginTop, eventCount, timelineToday, left, width) {
         var eventDescription = "";
-        eventDescription = '<div class = "eventTime" style = "margin-top: ' + marginTop + 'px; height:' + oHeight + 'px; z-index: ' + eventCount + ';left : ' + left + '%; width:' + width + '%">' +
-            '<div class = "eventTiming">' + formatAMPM(dayEvents[eventCount].startTime) + ' - ' + formatAMPM(dayEvents[eventCount].endTime) + '</div>' +
-            '<div class = "eventInfo">' + dayEvents[eventCount].title + '</div>' +
-            '<div class = "change"><span>edit</span><span>delete</span><span>cancel</span>' +
-            '</div>';
+        /*Condition for rendering event whichh duration is less than or equeal to 15 min*/
+        if (oHeight <= 15) {
+            oHeight = 15;
+            eventDescription = "<div class = eventTime style = margin-top:" + marginTop + "px; height:" + oHeight + "px; z-index: " + eventCount + ";left :" + left + "%; width:" + width + "%>" +
+                "<div class = eventTiming>" + formatAMPM(dayEvents[eventCount].startTime) + " - <span>" + dayEvents[eventCount].title + "</span></div>" +
+                "</div>";
+        } else { /*Render event for other cases*/
+            eventDescription = "<div class = eventTime style = margin-top: " + marginTop + "px; height:" + oHeight + "px; z-index: " + eventCount + ";left : " + left + "%; width:" + width + "%>" +
+                "<div class = eventTiming>" + formatAMPM(dayEvents[eventCount].startTime) + " - " + formatAMPM(dayEvents[eventCount].endTime) + "</div>" +
+                "<div class = eventInfo>" + dayEvents[eventCount].title + "</div>" +
+                "</div>";
+        }
         timelineToday.append(eventDescription);
-    }
+    };
 
     /*Get AM and PM detail of time*/
     var formatAMPM = function(date) {
@@ -197,11 +202,31 @@ var eventOrganizer = (function() {
         $(".dateUpdate").text(getDateValue);
 
     };
+    // On click any event add speech bubble pop up
+    var onClickFire = function() {
+        $(".eventTime").on("click", function(event) {
+            $(".eventExtension").remove();
+            var target = event.target;
+            var offset = $(this).offset();
+            var xCo = event.pageX - offset.left - 45;
+            var yCo = event.pageY - offset.top - 90;
+            console.log(xCo, yCo);
+            var timeExtention = "<div class=" + "eventExtension" + " style =" + "left:" + xCo + "px;top:" + yCo + "px><span><a href=#>edit</a></span><span><a href=#>delete</a></span><span><a href=#>cancel</a></span></div>";
+            $(target).append(timeExtention);
+        });
 
+        // On click anywhere else remove speech bubble pop up
+        $(document).on("click", function(e) {
+            if ($(e.target).closest(".eventTime").length === 0) {
+                $(".eventExtension").remove();
+            }
+        });
+    };
     return {
         nextDay: nextDayCount,
         previousDay: preDayCount,
-        today: today
+        today: today,
+        onClickFire: onClickFire
     };
 })();
 

@@ -1,4 +1,5 @@
 /*Page styling*/
+
 body {
     margin: 0;
     padding: 0;
@@ -156,22 +157,70 @@ tr {
     position: absolute;
     color: #1d1d1d;
     border: 1px solid #fff;
-}
-
-.eventInfo {
+    font: bold 10px Arial, sans-serif;
 }
 
 .eventTiming {
+    margin-top: 3px;
+    margin-left: 5px;
 }
 
-
-.change {
+.eventInfo {
+    margin-left: 8px;
+    margin-top: 3px;
 }
 
 .change span {
     margin-right: 20px;
 }
 
-.eachCellHeight{
+.eachCellHeight {
     height: 60px;
 }
+
+
+/*pop up box style starts*/
+
+div.eventExtension {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    background-color: #fff;
+    border: 2px solid #666;
+    -webkit-box-shadow: 2px 2px 4px #888;
+    -moz-box-shadow: 2px 2px 4px #888;
+    box-shadow: 2px 2px 2px #888;
+    z-index: 50;
+}
+
+div.eventExtension:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 30px;
+    top: 50px;
+    border: 20px solid;
+    border-color: #666 transparent transparent;
+}
+
+div.eventExtension:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 38px;
+    top: 50px;
+    border: 15px solid;
+    border-color: #fff transparent transparent;
+}
+
+div.eventExtension span {
+    margin-right: 20px;
+    font-size: 12px;
+}
+
+
+/*pop up box style end*/
